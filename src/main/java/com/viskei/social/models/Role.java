@@ -1,9 +1,18 @@
 package com.viskei.social.models;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "roles")
+@Getter
+@Setter
+@ToString
 public class Role {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,19 +25,16 @@ public class Role {
 
   }
 
-  public Integer getId() {
-    return id;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Role role = (Role) o;
+    return Objects.equals(id, role.id) && Objects.equals(name, role.name);
   }
 
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name);
   }
 }
