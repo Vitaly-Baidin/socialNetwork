@@ -22,14 +22,20 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentResponse createComment(CommentRequest commentRequest) {
+    public Comment createComment(CommentRequest commentRequest) {
         Comment comment = new Comment();
+        if (!StringUtils.hasText(commentRequest.getUsername()))
+            throw new IllegalArgumentException("ERROR: username not be empty or null!");
+
+        if (!StringUtils.hasText(commentRequest.getText()))
+            throw new IllegalArgumentException("ERROR: text not be empty or null!");
+
         comment.setUsername(commentRequest.getUsername());
         comment.setText(commentRequest.getText());
 
         commentRepository.save(comment);
 
-        return new CommentResponse(comment);
+        return comment;
     }
 
     @Override
@@ -53,7 +59,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentResponse updateComment(CommentRequest commentRequest) {
-        if (commentRequest.getId() == null) throw new IllegalArgumentException("The given id must not be null!");
+        if (commentRequest.getId() == null) throw new IllegalArgumentException("ERROR: id not be empty or null!");
         Comment comment = commentRepository.findById(commentRequest.getId())
                 .orElseThrow(() ->
                         new CommentNotFoundException("ERROR: Comment is not found!"));
