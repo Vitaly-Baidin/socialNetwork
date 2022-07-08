@@ -2,13 +2,12 @@ package com.viskei.social.payload.request;
 
 import lombok.Data;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Min;
 
 @Data
 public class CommentRequest {
 
-    @DecimalMin("1")
+    @Min(1)
     private Long id;
 
     private String username;
